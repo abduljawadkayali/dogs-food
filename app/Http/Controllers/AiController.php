@@ -65,7 +65,6 @@ class AiController extends Controller
 
             $i++;
         }
-      //  dd($food->Relation->pluck('specific_value'));
         $constraints = collect($names)->zip($max)->transform(function ($values) {
             return [
                 'name' => $values[0],

@@ -229,42 +229,8 @@
                 </div>
             </div>
         </div>
-        <!-- Slide 2 -->
-        <div class="slide slide-1">
-            <div class="slide__bg"></div>
-            <div class="slide__content">
-                <svg class="slide__overlay" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
-                    <path class="slide__overlay-path" d="M0,0 150,0 500,405 0,405" />
-                </svg>
-                <div class="slide__text">
-                    <h1 class="slide__text-heading">@lang("With Us ...")</h1>
-                    <div class="hidden-sm hidden-xs">
-                        <p class="lead">@lang("Feed mix ration program powered by Artificial Intelligence.")</p>
-                        <div class="page-scroll">
-                            <a href="#register" class="btn btn-default">@lang("Register")</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Slide 3-->
-        <div class="slide slide-2">
-            <div class="slide__bg"></div>
-            <div class="slide__content">
-                <svg class="slide__overlay" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
-                    <path class="slide__overlay-path" d="M0,0 150,0 500,405 0,405" />
-                </svg>
-                <div class="slide__text">
-                    <h1 class="slide__text-heading">@lang("Why OptimizasyonX !!")</h1>
-                    <div class="hidden-sm hidden-xs">
-                        <p class="lead">@lang("OptimizasyonX Mixed Ration Feed Program is the most affordable and flexible formulation software market in Turkey")</p>
-                        <div class="page-scroll">
-                            <a href="#about" class="btn btn-default">@lang("More about us")</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+   
 
         @php
         $i =3;

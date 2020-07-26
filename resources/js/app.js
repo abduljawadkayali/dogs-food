@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 const { default: Axios } = require("axios");
 
+var animalTaurin = animal[0]['Taurin'] ;
 var animalEnerji = animal[0]['Enerji'] ;
 var animalFosfor = animal[0]['Fosfor'] ;
 var animalHp = animal[0]['Hp'] ;
@@ -18,50 +19,135 @@ var animalLinoliekAsit = animal[0]['LinoliekAsit'] ;
 var animalMeganizyum = animal[0]['Meganizyum'] ;
 var animalSodyum = animal[0]['Sodyum'] ;
 var animalYag = animal[0]['Yag'] ;
-
+// Solve the model
 var solver = require("javascript-lp-solver"),
-    model = {
-        "optimize": "profit",
-        "opType": "min",
-        "constraints": {
-            "Hp": { "min": animalHp * 0.999, "max": animalHp * 2.5 },
-            "Meganizyum": { "min": animalMeganizyum * 0.999, "max": animalMeganizyum * 2.5 },
-            "LinoliekAsit": { "min": animalLinoliekAsit * 0.999, "max": animalLinoliekAsit * 2.5 },
-            "Enerji": { "min": animalEnerji * 0.999, "max": animalEnerji * 1.2 },
-            "Kalsiyum": { "min": animalKalsiyum * 0.999, "max": animalKalsiyum * 1.2 },
-            "Fosfor": { "min": animalFosfor * 0.999, "max": animalFosfor * 1.2 },
-            "Sodyum": { "min": animalSodyum * 0.999, "max": animalSodyum * 1.1 },
-            "Yag": { "min": animalYag * 0.999, "max": animalYag * 2 },
-        },
-        "variables": {},
-        "options": {
-            "tolerance": 0.05
-        },
-    }
+    results,
+    model = [
 
-for (i = 0; i < Constraint.length; i++) {
-    model.constraints[Constraint[i].name] = { "min": 0, "max": Constraint[i].max };
+    ];
+
+
+//Amaç Fonksiyonu (maliyet minimizasyonu)
+var  row = `min: `
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][14]} ${Variable[j] } `
+    j++
 }
-for (i = 0; i < Variable.length; i++) {
-
-    model.variables[Variable[i]] = {
-        "Enerji": 85*Variable[i+1][2] ,
-        "Hp": 10*Variable[i+1][1],
-        "Meganizyum": 20*Variable[i+1][9],
-        "LinoliekAsit":0.1* Variable[i+1][13],
-        "Kalsiyum":0.1* Variable[i+1][6],
-        "Fosfor": 0.3*Variable[i+1][7],
-        "Sodyum": 14*Variable[i+1][10],
-        "Yag": 0.7*Variable[i+1][12],
-        "profit":10* Variable[i+1][14] };
-    i++
+model.push(row)
+//ham protein kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][1]} ${Variable[j] } `
+    j++
 }
+row +=`>= ${animalHp } `
+model.push(row)
+
+//enerji kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][2]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${0.999*animalEnerji } `
+model.push(row)
+
+//enerji kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][2]} ${Variable[j] } `
+    j++
+}
+row +=`<= ${1.2*animalEnerji } `
+model.push(row)
 
 
+//yağ kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][12]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${0.999*animalYag } `
+model.push(row)
+
+//yağ kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][12]} ${Variable[j] } `
+    j++
+}
+row +=`<= ${2*animalYag } `
+model.push(row)
+
+
+////kalsiyum kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][6]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${animalKalsiyum } `
+model.push(row)
+
+
+////fosfor kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][7]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${animalFosfor } `
+model.push(row)
+
+//magnezyum kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][9]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${animalMeganizyum } `
+model.push(row)
+
+//Sodyum kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][10]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${animalSodyum } `
+model.push(row)
+
+//Taurin kısıtı
+//row = ``
+//for(let j=0;j<Variable.length;j++){
+//   row += `${Variable[j+1][11]} ${Variable[j] } `
+//   j++
+//}
+//row +=`>= ${animalTaurin } `
+//model.push(row)
+//Linoleik asit kısıtı
+row = ``
+for(let j=0;j<Variable.length;j++){
+    row += `${Variable[j+1][13]} ${Variable[j] } `
+    j++
+}
+row +=`>= ${animalLinoliekAsit } `
+model.push(row)
+    //fhgf hhytyu 545 7657 dfgh
+
+//Kullanıcının elindeki hammaddelere ait kısıtlar
+row = ``
+for(let j=0;j<Constraint.length;j++){
+    row = `1 ${Constraint[j].name } <= ${Constraint[j].max } `
+    model.push(row)
+}
+console.log(model);
+// Reformat to JSON model
+model = solver.ReformatLP(model);
+console.log(model);
 results = solver.Solve(model);
-console.log(Object.values(results));
-
-
+console.log(results);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

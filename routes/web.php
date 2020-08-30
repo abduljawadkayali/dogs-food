@@ -80,6 +80,27 @@ Route::resource('animal','AnimalController');
 
 Route::resource('solution','SolutionController');
 
+Route::resource('solutions','MainSolutionController');
+
+Route::get('dogNeed/{id}','MainSolutionController@DogNeed');
+
+
+Route::get('dog/{id}','MainSolutionController@Dog');
+
+Route::post('mainRelation','MainSolutionController@Relation');
+
+Route::post('aiFood','MainSolutionController@AiFood');
+
+Route::post('cozum','MainSolutionController@Solution');
+
+
+Route::get('foodRelation/{id}','MainSolutionController@FoodRelation');
+
 Route::resource('Ai','AiController');
 
 Route::get('/downloadPDF/{id}','SolutionController@downloadPDF');
+
+
+Route::get('product-list/{id}/edit', 'ProductController@edit');
+Route::post('product-list/store', 'ProductController@store');
+Route::get('product-list/delete/{id}', 'ProductController@destroy');

@@ -50,6 +50,7 @@ class SolutionController extends Controller
             'karma_id'    =>  'required',
             'animal_id'    =>  'required'
         ]);
+
         $solution = new Solution();
         $solution->name = $request->name;
         $solution->karma_id = $request->karma_id;
@@ -129,35 +130,42 @@ class SolutionController extends Controller
             $solution->LinoliekAsitSonuc = "Ok";
         $KarmaFood = KarmaFood::where('karma_id',$request->karma_id)->get();
         $KarmaFoodSum = $KarmaFood->sum('food_amount');
-        $solution->EnerjiPercent =$karma->Enerji/ (10 * $KarmaFoodSum);
-        $solution->KmPercent = $karma->Km / (10 * $KarmaFoodSum);
-        $solution->HpPercent = $karma->Hp / (10 * $KarmaFoodSum);
-        $solution->LifPercent = $karma->Lif / (10 * $KarmaFoodSum);
-        $solution->KulPercent = $karma->Kul / (10 * $KarmaFoodSum);
-        $solution->KarbonhidratPercent = $karma->Karbonhidrat / (10 * $KarmaFoodSum);
-        $solution->KalsiyumPercent = $karma->Kalsiyum / (10 * $KarmaFoodSum);
-        $solution->FosforPercent = $karma->Fosfor / (10 * $KarmaFoodSum);
+        $solution->EnerjiPercent =1000*$karma->Enerji/ (10 * $KarmaFoodSum);
+        $solution->KmPercent = 1000*$karma->Km / (10 * $KarmaFoodSum);
+        $solution->HpPercent =1000* $karma->Hp / (10 * $KarmaFoodSum);
+        $solution->LifPercent = 1000*$karma->Lif / (10 * $KarmaFoodSum);
+        $solution->KulPercent =1000* $karma->Kul / (10 * $KarmaFoodSum);
+        $solution->KarbonhidratPercent =1000* $karma->Karbonhidrat / (10 * $KarmaFoodSum);
+        $solution->KalsiyumPercent =1000* $karma->Kalsiyum / (10 * $KarmaFoodSum);
+        $solution->FosforPercent =1000* $karma->Fosfor / (10 * $KarmaFoodSum);
         $solution->Ca_pPercent = null;
-        $solution->MeganizyumPercent =  $karma->Meganizyum / (10000 * $KarmaFoodSum);
-        $solution->SodyumPercent =  $karma->Sodyum / (10000 * $KarmaFoodSum);
-        $solution->TaurinPercent = $karma->Taurin / (10 * $KarmaFoodSum);
-        $solution->YagPercent = $karma->Yag / (10 * $KarmaFoodSum);
-        $solution->LinoliekAsitPercent = $karma->LinoliekAsit / (10 * $KarmaFoodSum);
+        $solution->MeganizyumPercent =  1000*$karma->Meganizyum / (10000 * $KarmaFoodSum);
+        $solution->SodyumPercent =  1000*$karma->Sodyum / (10000 * $KarmaFoodSum);
+        $solution->TaurinPercent =1000* $karma->Taurin / (10 * $KarmaFoodSum);
+        $solution->YagPercent = 1000*$karma->Yag / (10 * $KarmaFoodSum);
+        $solution->LinoliekAsitPercent =1000* $karma->LinoliekAsit / (10 * $KarmaFoodSum);
 
-        $solution->EnerjiKM =  $solution->EnerjiPercent / $solution->KmPercent;
+        $solution->EnerjiKM = 100* $solution->EnerjiPercent / $solution->KmPercent;
+        if ($solution->Animal->AnimalFoodType->name == "Pet Food")
+        {
+            $solution->dailyNeed = $animal->Enerji / 10* $solution->EnerjiKM ;
+        }
+        else{
+            $solution->dailyNeed =$KarmaFoodSum;
+        }
         $solution->KmKM =  null;
-        $solution->HpKM =  $solution->HpPercent / $solution->KmPercent;
-        $solution->LifKM =  $solution->LifPercent / $solution->KmPercent;
-        $solution->KulKM =  $solution->KulPercent / $solution->KmPercent;
-        $solution->KarbonhidratKM =  $solution->KarbonhidratPercent / $solution->KmPercent;
-        $solution->KalsiyumKM =  $solution->KalsiyumPercent / $solution->KmPercent;
-        $solution->FosforKM =  $solution->FosforPercent / $solution->KmPercent;
+        $solution->HpKM =  100*$solution->HpPercent / $solution->KmPercent;
+        $solution->LifKM = 100* $solution->LifPercent / $solution->KmPercent;
+        $solution->KulKM =  100*$solution->KulPercent / $solution->KmPercent;
+        $solution->KarbonhidratKM =100*  $solution->KarbonhidratPercent / $solution->KmPercent;
+        $solution->KalsiyumKM =  100*$solution->KalsiyumPercent / $solution->KmPercent;
+        $solution->FosforKM =100*  $solution->FosforPercent / $solution->KmPercent;
         $solution->Ca_pKM = null;
-        $solution->MeganizyumKM =  $solution->MeganizyumPercent / $solution->KmPercent;
-        $solution->SodyumKM =  $solution->SodyumPercent / $solution->KmPercent;
-        $solution->TaurinKM =  $solution->TaurinPercent / $solution->KmPercent;
-        $solution->YagKM =  $solution->YagPercent / $solution->KmPercent;
-        $solution->LinoliekAsitKM =  $solution->LinoliekAsitPercent / $solution->KmPercent;
+        $solution->MeganizyumKM =  100*$solution->MeganizyumPercent / $solution->KmPercent;
+        $solution->SodyumKM =100*  $solution->SodyumPercent / $solution->KmPercent;
+        $solution->TaurinKM = 100* $solution->TaurinPercent / $solution->KmPercent;
+        $solution->YagKM = 100* $solution->YagPercent / $solution->KmPercent;
+        $solution->LinoliekAsitKM = 100* $solution->LinoliekAsitPercent / $solution->KmPercent;
         $solution->save();
         toast(__('Solution Added Successfully'),'success');
         return view('solution.view', compact('solution','animal','karma'));

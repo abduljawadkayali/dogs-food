@@ -54,30 +54,36 @@ class AiController extends Controller
         $max = [];
         foreach ($Foods_id as $food_id) {
 
+
             if($values[$i])
             {
                 $food = Food::findOrFail($food_id);
+
                 array_push($variables,$food->name);
                 array_push($names,$food->name);
                 array_push($max,$values[$i]);
+
                 array_push($variables,$food->Relation->pluck('specific_value'));
+
             }
 
             $i++;
         }
+
         $constraints = collect($names)->zip($max)->transform(function ($values) {
             return [
                 'name' => $values[0],
                 'max' => (int)$values[1],
             ];
         });
+      //  dd($constraints);
         $animal = $animal->AnimalNeed;
         JavaScript::put([
             'animal' => $animal,
             'Variable' => $variables,
             'Constraint' => $constraints
         ]);
-
+//dd($food->Relation->pluck('specific_value'));
         return view('Ai.index', compact(['animal','variables','constraints'] ));
     }
 

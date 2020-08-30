@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="food_specific_id">{{__($row->name)}} -- {{__($row->FoodUnit->name)}} </label>
 
-                    {{ Form::number('food_specific_value[]',$data->Relation->where('food_specific_id',$row->id)->pluck("specific_value")->first(), array('class' => 'form-control')) }}
+                    {{ Form::number('food_specific_value[]',$data->Relation->where('food_specific_id',$row->id)->pluck("specific_value")->first(), ['class' => 'form-control','step' => '0.001']) }}
                     {{ Form::hidden('food_specific_id[]', $row->id, array('class' => 'form-control')) }}
                 </div>
             </div>

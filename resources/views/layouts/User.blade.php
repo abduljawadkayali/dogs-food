@@ -105,11 +105,21 @@
                          with font-awesome or any other icon font library -->
 
                     <li class="nav-item">
+                        <a href="/solutions" class="nav-link ">
+                            <i class="fas fa-poll-h nav-icon"></i>
+                            <p>@lang("Solutions")</p>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
                         <a href="/Ai/create" class="nav-link ">
                             <i class="fas fa-poll-h nav-icon"></i>
                             <p>@lang("AI Solution")</p>
                         </a>
                     </li>
+
+
                     <li class="nav-item">
                         <a href="/solution" class="nav-link ">
                             <i class="fas fa-poll-h nav-icon"></i>
@@ -309,16 +319,3 @@
 </div>
 <!-- ./wrapper -->
 @include('include.script')
-<script>
-/*menu handler*/
-var url = window.location;
-// Will only work if string in href matches with location
-$('ul.navbar-nav a[href="'+ url +'"]').parent().addClass('active');
-
-// Will also work for relative and absolute hrefs
-$('ul.navbar-nav a').filter(function() {
-    return this.href == url;
-}).parent().addClass('active');
-</script>
-</body>
-</html>

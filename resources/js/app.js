@@ -174,9 +174,9 @@ window.onclick = function() {
    // console.log(model);
 // Reformat to JSON model
     model = solver.ReformatLP(model);
-    console.log(model);
+   // console.log(model);
     results = solver.Solve(model);
-    console.log(results);
+    //console.log(results);
   //  console.log("sdfsd");
 
 

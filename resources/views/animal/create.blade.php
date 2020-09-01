@@ -28,7 +28,7 @@
                 <div class="col-md-3">
             <div class="form-group">
                 <label for="animal_food_type_id">@lang("Select Dog Food Type")</label>
-                <select name="animal_food_type_id" class="form-control">
+                <select  name="animal_food_type_id" class="form-control">
                     <option value="">@lang("--- Select Dog Food Type ---")</option>
 
                     @foreach ($AnimalFoodType as $key => $value)
@@ -42,11 +42,11 @@
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="animal_family_id">@lang("Select Dog Family")</label>
-                    <select name="animal_family_id" class="form-control">
-                        <option value="">@lang("--- Select Dog Family ---")</option>
+                    <label for="animal_type_id">@lang("Select Dog Age Type")</label>
+                    <select name="animal_type_id" class="form-control">
+                        <option value="">@lang("--- Select Dog Age Type ---")</option>
 
-                        @foreach ($AnimalFamily as $key => $value)
+                        @foreach ($AnimalType as $key => $value)
 
                             <option value="{{ $value->id }}">{{ __($value->name) }}</option>
 
@@ -54,6 +54,8 @@
                     </select>
                 </div>
             </div>
+
+
 
 
             <div class="col-md-3">
@@ -73,11 +75,11 @@
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="animal_type_id">@lang("Select Dog Age Type")</label>
-                    <select name="animal_type_id" class="form-control">
-                        <option value="">@lang("--- Select Dog Age Type ---")</option>
+                    <label for="animal_family_id">@lang("Select Dog Family")</label>
+                    <select name="animal_family_id" class="form-control">
+                        <option value="">@lang("--- Select Dog Family ---")</option>
 
-                        @foreach ($AnimalType as $key => $value)
+                        @foreach ($AnimalFamily as $key => $value)
 
                             <option value="{{ $value->id }}">{{ __($value->name) }}</option>
 
@@ -107,7 +109,7 @@
 
 
 
-            <div class="col-md-3">
+            <div id="gebelik" style="visibility: hidden;"  class="col-md-3">
                 <div class="form-group">
                     <label for="gebelik"> @lang("Dog Pregnancy"): (@lang("If Exist"))</label>
                     <br>
@@ -118,7 +120,15 @@
 
 
             <div class="col-md-3">
-                <div class="form-group">
+                <label id="header"> </label><br>
+                <label id="ortalama"> </label><br>
+                <label id="az"></label><br>
+                <label id="cok"></label>
+
+            </div>
+
+            <div id="dogum" style="visibility: hidden;" class="col-md-3">
+                <div  class="form-group">
                     <label for="dogum"> @lang("Dog Birth") : (@lang("If Exist"))</label>
                     <br>
 
@@ -126,9 +136,9 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="child"> @lang("Dog's Children") : (@lang("If Exist"))</label>
+            <div id="child" style="visibility: hidden;" class="col-md-3">
+                <div  class="form-group">
+                    <label for="child" > @lang("Dog's Children") : (@lang("If Exist"))</label>
                     <br>
 
                     {{ Form::number('child', null, array('class' => 'form-control')) }}
@@ -144,6 +154,59 @@
         </div>
     </div>
 
+
+    <script>
+        jQuery(document).ready(function ()
+        {
+            jQuery('select[name="animal_family_id"]').on('change',function(){
+                var animal_family_id = jQuery(this).val();
+                jQuery.ajax({
+                    url : '/animalFamily/' +animal_family_id,
+                    type : "GET",
+                    dataType : "json",
+                    success:function(data)
+                    {
+
+                        document.getElementById('header').innerHTML = 'Irkın Ergin Canlı Ağırlık Biligisi ';
+                        document.getElementById('ortalama').innerHTML = '@lang(" Ortalama ağırlık ")' + data[0][0]['average'] + ' kg ';
+                        document.getElementById('az').innerHTML = '@lang(" En Az ")' + data[0][0]['min'] + ' kg ';
+                        document.getElementById('cok').innerHTML = '@lang(" En çok ")' + data[0][0]['max'] + ' kg ';
+                        console.log(data) ;
+
+
+                    }
+                });
+            });
+        });
+
+
+        jQuery(document).ready(function ()
+        {
+            jQuery('select[name="animal_type_id"]').on('change',function(){
+                var animal_family_id = jQuery(this).val();
+
+                if (animal_family_id == 3)
+                {
+                    document.getElementById("gebelik").style.visibility =  "visible";
+                    document.getElementById("dogum").style.visibility =  "hidden";
+                    document.getElementById("child").style.visibility =  "hidden";
+                }
+                else if (animal_family_id == 4)
+                {
+                    document.getElementById("gebelik").style.visibility =  "hidden";
+                    document.getElementById("dogum").style.visibility =  "visible";
+                    document.getElementById("child").style.visibility =  "visible";
+                }
+                else
+                {
+                    document.getElementById("gebelik").style.visibility =  "hidden";
+                    document.getElementById("dogum").style.visibility =  "hidden";
+                    document.getElementById("child").style.visibility =  "hidden";
+                }
+            });
+
+            });
+    </script>
 @endsection
 
 

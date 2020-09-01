@@ -20,9 +20,24 @@ class FoodController extends Controller
      */
     public function index()
     {
-        $data = Food::where('user_id', 1)->orWhere('user_id', auth()->user()->id)->get();
+        $FoodGroup = FoodGroup::where('user_id', 1)->orWhere('user_id', auth()->user()->id)->get();
+        $data = Food::where(function ($query){
+            $query->where('user_id',1)
+                ->orWhere('user_id',  auth()->user()->id);
+        })->paginate(150);
         $foodRelations = FoodRelation::all();
-        return view('food.index', compact('data', 'foodRelations'));
+        return view('food.index', compact('data', 'foodRelations', 'FoodGroup'));
+    }
+
+    public function index1($id)
+    {
+        $FoodGroup = FoodGroup::where('user_id', 1)->orWhere('user_id', auth()->user()->id)->get();
+        $data = Food::where(function ($query){
+            $query->where('user_id',1)
+                ->orWhere('user_id',  auth()->user()->id);
+        })->where('food_group_id',$id)->paginate(150);
+        $foodRelations = FoodRelation::all();
+        return view('food.index', compact('data', 'foodRelations', 'FoodGroup'));
     }
 
     /**

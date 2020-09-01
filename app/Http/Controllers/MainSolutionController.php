@@ -40,7 +40,7 @@ class MainSolutionController extends Controller
     {
         $Animal = Animal::where('user_id', 1)->orWhere('user_id', auth()->user()->id)->get();
         $foodGroup  = FoodGroup::all();
-$foods = Food::all();
+        $foods = Food::all();
         $foodRelations = FoodRelation::all();
 
 
@@ -83,8 +83,9 @@ $foods = Food::all();
             'food11' => $food11
 
         ]);
+        toast(__("Message"),'info');
 //dd($food->Relation->pluck('specific_value'));
-        return view('main.create', compact('Animal','foods','foodGroup', 'food1', 'food3','foodSpecific1'));
+        return view('main.create', compact('Animal','foods','foodGroup', 'food1', 'food3'));
     }
 
     /**
@@ -96,7 +97,7 @@ $foods = Food::all();
 
     public function FoodRelation($id)
     {
-       // dd($id);
+        // dd($id);
 
         return ($data =[$Relation = FoodRelation::where('food_id',$id)->get()] );
 
@@ -112,23 +113,27 @@ $foods = Food::all();
         $i=0;
 
         foreach ($data[0] as $food_name){
-            $food = Food::where('name',$food_name )->first();
-           // $food_id=Food::where('name',$food_name )->pluck('id');
-         //   $food = Food::findOrFail($food_id);
-            array_push($names,$food_name);
-            array_push($max,$data[1][$i]);
-            $i++;
-            array_push($variables,$food_name);
-            array_push($variables,$food->Relation->pluck('specific_value'));
+            if ($food_name)
+            {
+                $food = Food::where('name',$food_name )->first();
+                // $food_id=Food::where('name',$food_name )->pluck('id');
+                //   $food = Food::findOrFail($food_id);
+                array_push($names,$food_name);
+                array_push($max,$data[1][$i]);
+                $i++;
+                array_push($variables,$food_name);
+                array_push($variables,$food->Relation->pluck('specific_value'));
+
+            }
+            $constraints = collect($names)->zip($max)->transform(function ($values) {
+                return [
+                    'name' => $values[0],
+                    'max' => (int)$values[1],
+                ];
+            });
+            //  dd($variables);
 
         }
-        $constraints = collect($names)->zip($max)->transform(function ($values) {
-            return [
-                'name' => $values[0],
-                'max' => (int)$values[1],
-            ];
-        });
-      //  dd($variables);
 
         return ( $data =[$variables,$constraints]);
     }
@@ -229,7 +234,7 @@ $foods = Food::all();
 
         $karma = $solution->Karma->KarmaSpecificValue->first();
 
-        if ($karma->Enerji < 0.999 * $animal->Enerji)
+        if ($karma->Enerji < 0.99 * $animal->Enerji)
             $solution->EnerjiSonuc = "Lack";
         elseif ($karma->Enerji > 1.2 * $animal->Enerji)
             $solution->EnerjiSonuc = "Much";
@@ -350,7 +355,7 @@ $foods = Food::all();
 
     public function Relation(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
         $data = $request['data'];
         $food = [];
         $KM = [];
@@ -371,7 +376,7 @@ $foods = Food::all();
         $grup = [];
         foreach ($request['data'] as $item)
         {
-        //    $food = Food::where('name',$item )->get();
+            //    $food = Food::where('name',$item )->get();
             $food22=Food::where('name',$item )->first();
             $food_id=Food::where('name',$item )->pluck('id');
             $food_grup=$food22->FoodGroup->name;

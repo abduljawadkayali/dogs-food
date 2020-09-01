@@ -41,6 +41,14 @@ class AnimalController extends Controller
         return view('animal.create', compact('AnimalFoodType','AnimalType', 'AnimalFamily','AnimalMotion'));
     }
 
+    public function animalFamily($id)
+    {
+        // dd($id);
+
+        return ($data =[$Family = AnimalFamily::where('id',$id)->get()] );
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

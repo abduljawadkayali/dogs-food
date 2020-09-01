@@ -101,6 +101,7 @@ Route::resource('Ai','AiController');
 Route::get('/downloadPDF/{id}','SolutionController@downloadPDF');
 
 
-Route::get('product-list/{id}/edit', 'ProductController@edit');
-Route::post('product-list/store', 'ProductController@store');
-Route::get('product-list/delete/{id}', 'ProductController@destroy');
+Route::get('yiyecek/{id}','FoodController@index1');
+
+Route::get('animalFamily/{id}','AnimalController@animalFamily');
+

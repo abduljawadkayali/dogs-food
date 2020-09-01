@@ -11,6 +11,22 @@
 <div>
 
 </div>
+
+
+    <div class="col-md-12">
+            <div class="form-group">
+            <a style="margin:2px;" href="{{ URL::to('food/' ) }}" class="btn btn-success">{{ __("All Foods") }}</a>
+                <label for="food_group_id">@lang("Select Food Group")</label>
+                 @foreach ($FoodGroup as $key => $value)
+
+ <a style="margin:2px;" href="{{ URL::to('yiyecek/'.$value->id ) }}" class="btn btn-success">{{ __($value->name) }}</a>
+
+
+
+                    @endforeach
+            </div>
+                </div>
+
 @foreach($data as $row)
       <div class="card card-primary card-outline">
           <div class="card-header">
